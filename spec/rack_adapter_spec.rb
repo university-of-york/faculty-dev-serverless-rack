@@ -88,7 +88,7 @@ RSpec.describe 'Rack adapter' do
     expect(@response).to eq(
       'body' => 'Hello World ☃!',
       'headers' => {
-        'set-cookie' => ['CUSTOMER=WILE_E_COYOTE', 'LOT_NUMBER=42', 'PART_NUMBER=ROCKET_LAUNCHER_0002'],
+        'set-cookie' => %w[CUSTOMER=WILE_E_COYOTE LOT_NUMBER=42 PART_NUMBER=ROCKET_LAUNCHER_0002],
         'content-length' => '16',
         'content-type' => 'text/plain'
       },
