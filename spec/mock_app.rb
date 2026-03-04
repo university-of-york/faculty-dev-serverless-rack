@@ -17,7 +17,7 @@ class MockApp
 
     response = Rack::Response.new
     response.write('Hello World ☃!')
-    response.set_header('Content-Type', @response_mimetype)
+    response.set_header('content-type', @response_mimetype)
 
     cookies = [
       %w[CUSTOMER WILE_E_COYOTE],
