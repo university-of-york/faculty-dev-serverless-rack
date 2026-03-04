@@ -133,7 +133,7 @@ end
 def format_body(body:, headers:, text_mime_types:)
   response_data = ''
   begin
-    body.each { |part| response_data += part }
+    body.to_ary.each { |part| response_data += part } if body.respond_to?(:to_ary)
   ensure
     body.close if body.respond_to?(:close)
   end
