@@ -305,7 +305,7 @@ RSpec.describe 'Rack adapter' do
       'rack.multithread' => false,
       'rack.run_once' => false,
       'rack.url_scheme' => 'https',
-      'rack.version' => [1, 3],
+      'rack.version' => RACK_VERSION,
       'serverless.authorizer' => { 'principalId' => 'wile_e_coyote' },
       'serverless.context' => {},
       'serverless.event' => @event
