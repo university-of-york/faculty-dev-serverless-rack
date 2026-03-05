@@ -4,6 +4,8 @@ require 'rack'
 require 'rake'
 require_relative './mock_app'
 
+RACK_VERSION = Gem.loaded_specs['rack'].version.to_s.freeze
+
 RSpec.describe 'Rack adapter' do
   let(:app) { MockApp.new }
 
@@ -135,7 +137,7 @@ RSpec.describe 'Rack adapter' do
       'rack.multithread' => false,
       'rack.run_once' => false,
       'rack.url_scheme' => 'https',
-      'rack.version' => [1, 3],
+      'rack.version' => RACK_VERSION,
       'serverless.authorizer' => { 'principalId' => 'wile_e_coyote' },
       'serverless.context' => { 'memory_limit_in_mb' => '128' },
       'serverless.event' => @event
