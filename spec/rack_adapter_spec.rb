@@ -397,9 +397,9 @@ RSpec.describe 'Rack adapter' do
       expect(response).to eq(
         'body' => 'Hello World ☃!',
         'headers' => {
-          'Set-Cookie' => 'CUSTOMER=WILE_E_COYOTE',
-          'Content-Length' => '16',
-          'Content-Type' => mimetype
+          'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+          'content-length' => '16',
+          'content-type' => mimetype
         },
         'statusCode' => 200,
         'isBase64Encoded' => false
