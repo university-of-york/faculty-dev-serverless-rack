@@ -15,7 +15,7 @@ require 'stringio'
 require_relative './serverless_rack'
 
 $config ||= JSON.parse(File.read('.serverless-rack'))
-$app ||= Rack::Builder.parse_file($config['config_path'] || 'config.ru').first
+$app ||= Rack::Builder.parse_file($config['config_path'] || 'config.ru')
 
 # For some reason, SimpleCov is unable to profile this file correctly.
 # It is covered, though, but you'll need to take my word for it.
