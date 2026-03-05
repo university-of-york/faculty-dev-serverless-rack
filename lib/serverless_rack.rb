@@ -201,9 +201,7 @@ def format_split_headers(headers:)
 end
 
 def format_grouped_headers(headers:)
-  { 'multiValueHeaders' => headers.transform_values do |value|
-    value.split("\n")
-  end }
+  { 'multiValueHeaders' => headers.transform_values { |v| v.is_a?(Array) ? v : [v] } }
 end
 
 def format_response(event:, status:, headers:, body:, text_mime_types:)
