@@ -69,7 +69,7 @@ def parse_headers(event)
       end
     )
   else
-    Rack::Headers.new(event['headers'] || {})
+    Rack::Headers[event['headers'] || {}]
   end
 end
 
