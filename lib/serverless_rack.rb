@@ -175,26 +175,29 @@ def all_casings(input_string)
 end
 
 def format_split_headers(headers:)
-  headers = headers.to_hash
-  keys = headers.keys
+  # Rack::Headers will automatically lower-case new keys
+  # Use (and return) a regular hash literal instead
+  headers_hash = {}
+  headers.each { |k, v| headers_hash[k] = v }
 
+  keys = headers_hash.keys
   # If there are headers multiple occurrences, e.g. Set-Cookie, create
   # case-mutated variations in order to pass them through APIGW.
   # This is a hack that's currently needed.
   keys.each do |key|
-    values = headers[key].split("\n")
+    values = headers_hash[key]
 
-    next if values.size < 2
+    next unless values.is_a?(Array)
 
-    headers.delete(key)
+    headers_hash.delete(key)
 
     all_casings(key) do |casing|
-      headers[casing] = values.shift
+      headers_hash[casing] = values.shift
       break if values.empty?
     end
   end
 
-  { 'headers' => headers }
+  { 'headers' => headers_hash }
 end
 
 def format_grouped_headers(headers:)
