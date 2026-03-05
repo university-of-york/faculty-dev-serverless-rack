@@ -244,8 +244,8 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'headers' => {
-        'Content-Length' => '16',
-        'Content-Type' => 'text/plain'
+        'content-length' => '16',
+        'content-type' => 'text/plain'
       },
       'statusCode' => 200,
       'isBase64Encoded' => false
