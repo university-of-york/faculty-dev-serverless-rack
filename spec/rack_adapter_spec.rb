@@ -481,9 +481,9 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'headers' => {
-        'Set-Cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'application/custom+json'
+        'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+        'content-length' => '16',
+        'content-type' => 'application/custom+json'
       },
       'statusCode' => 200,
       'isBase64Encoded' => false
@@ -530,8 +530,8 @@ RSpec.describe 'Rack adapter' do
       'body' => 'Hello World ☃!',
       'headers' => {
         'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'text/plain',
+        'content-length' => '16',
+        'content-type' => 'text/plain',
         'sEt-cookie' => 'LOT_NUMBER=42',
         'Set-cookie' => 'PART_NUMBER=ROCKET_LAUNCHER_0002'
       },
