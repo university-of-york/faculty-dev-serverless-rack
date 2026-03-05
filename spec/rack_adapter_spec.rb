@@ -169,9 +169,9 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'multiValueHeaders' => {
-        'Content-Length' => ['16'],
-        'Content-Type' => ['text/plain'],
-        'Set-Cookie' => [
+        'content-length' => ['16'],
+        'content-type' => ['text/plain'],
+        'set-cookie' => [
           'CUSTOMER=WILE_E_COYOTE',
           'PART_NUMBER=ROCKET_LAUNCHER_0002',
           'LOT_NUMBER=42'
