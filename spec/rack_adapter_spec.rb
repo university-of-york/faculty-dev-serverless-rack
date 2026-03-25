@@ -11,7 +11,7 @@ RSpec.describe 'Rack adapter' do
 
   before(:example) do
     @app = app
-    allow(Rack::Builder).to receive(:parse_file).with('config.ru').and_return([@app])
+    allow(Rack::Builder).to receive(:parse_file).with('config.ru').and_return(@app)
 
     allow(File).to receive(:read).and_call_original
     allow(File).to receive(:read).with('.serverless-rack').and_return('{}')
@@ -604,7 +604,7 @@ RSpec.describe 'Rack adapter' do
   it 'loads custom Rack config' do
     allow(Rack::Builder).to receive(:parse_file).with(
       'path/to/config.ru'
-    ).and_return(['custom config'])
+    ).and_return('custom config')
 
     allow(File).to receive(:read).and_call_original
     allow(File).to receive(:read).with('.serverless-rack').and_return(
