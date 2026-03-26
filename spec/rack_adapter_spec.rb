@@ -617,6 +617,32 @@ RSpec.describe 'Rack adapter' do
     expect($app).to eq('custom config')
   end
 
+  context 'when the response body is a streaming body' do
+    before do
+      app.streaming_response = true
+    end
+
+    it 'buffers the response into a string' do
+      response = handler(
+        event: @event,
+        context: { 'memory_limit_in_mb' => '128' }
+      )
+
+      expect(response).to eq(
+        'body' => 'Streamed Hello World ☃!',
+        'headers' => {
+          'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+          'transfer-encoding' => 'chunked',
+          'content-type' => 'text/plain',
+          'sEt-cookie' => 'LOT_NUMBER=42',
+          'Set-cookie' => 'PART_NUMBER=ROCKET_LAUNCHER_0002'
+        },
+        'statusCode' => 200,
+        'isBase64Encoded' => false
+      )
+    end
+  end
+
   context 'when the response body can be closed' do
     let(:buffer) { StringIO.new('Hello World!') }
     let(:app) { ->(_env) { [200, { 'Content-Type' => 'text/plain' }, buffer] } }
