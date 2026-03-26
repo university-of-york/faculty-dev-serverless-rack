@@ -23,7 +23,7 @@ class MockApp
       response.write('Hello World ☃!')
       response_body = response.body
     end
-    response.set_header('content-type', @response_mimetype)
+    response.set_header('Content-Type', @response_mimetype)
 
     cookies = [
       %w[CUSTOMER WILE_E_COYOTE],
