@@ -196,22 +196,19 @@ end
 def format_split_headers(headers:)
   # Rack::Headers will automatically lower-case new keys
   # Use (and return) a regular hash literal instead
-  headers_hash = headers.to_h
+  headers_hash = {}
 
-  keys = headers_hash.keys
   # If there are headers multiple occurrences, e.g. Set-Cookie, create
   # case-mutated variations in order to pass them through APIGW.
   # This is a hack that's currently needed.
-  keys.each do |key|
-    values = headers_hash[key]
-
-    next unless values.is_a?(Array)
-
-    headers_hash.delete(key)
-
-    all_casings(key) do |casing|
-      headers_hash[casing] = values.shift
-      break if values.empty?
+  headers.each do |key, value|
+    if value.is_a?(Array)
+      all_casings(key) do |casing|
+        headers_hash[casing] = value.shift
+        break if value.empty?
+      end
+    else
+      headers_hash[key] = value
     end
   end
 
