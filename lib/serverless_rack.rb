@@ -196,8 +196,7 @@ end
 def format_split_headers(headers:)
   # Rack::Headers will automatically lower-case new keys
   # Use (and return) a regular hash literal instead
-  headers_hash = {}
-  headers.each { |k, v| headers_hash[k] = v }
+  headers_hash = headers.to_h
 
   keys = headers_hash.keys
   # If there are headers multiple occurrences, e.g. Set-Cookie, create
