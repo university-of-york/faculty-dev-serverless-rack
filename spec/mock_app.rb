@@ -19,7 +19,6 @@ class MockApp
     response = Rack::Response.new
     if @streaming_response
       response_body = StreamingResponse.new
-      response.set_header('transfer-encoding', 'chunked')
     else # Enumerated response
       response.write('Hello World ☃!')
       response_body = response.body

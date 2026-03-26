@@ -632,7 +632,6 @@ RSpec.describe 'Rack adapter' do
         'body' => 'Streamed Hello World ☃!',
         'headers' => {
           'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
-          'transfer-encoding' => 'chunked',
           'content-type' => 'text/plain',
           'sEt-cookie' => 'LOT_NUMBER=42',
           'Set-cookie' => 'PART_NUMBER=ROCKET_LAUNCHER_0002'
