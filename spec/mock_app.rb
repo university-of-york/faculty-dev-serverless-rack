@@ -37,6 +37,7 @@ class MockApp
 
     environ['rack.errors'].puts 'application debug #1' if @verbose
 
+    response.finish
     [response.status, response.headers, response_body]
   end
 
