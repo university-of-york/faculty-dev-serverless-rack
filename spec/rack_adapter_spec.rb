@@ -589,7 +589,7 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq("hello world\n")
   end
 
-  it 'fails when invoked with unknown comand' do
+  it 'fails when invoked with unknown command' do
     response = handler(
       event: { '_serverless-rack' => {
         'command' => 'unknown',
