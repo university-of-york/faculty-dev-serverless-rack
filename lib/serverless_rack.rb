@@ -138,6 +138,12 @@ class ResponseInputStream
     @buffer = ''
   end
 
+  def self.[](streaming_body)
+    stream = new
+    streaming_body.call(stream)
+    stream.buffer
+  end
+
   def write(chunk)
     @buffer += chunk
   end
@@ -165,9 +171,7 @@ def format_body(body:, headers:, text_mime_types:)
     elsif body.respond_to?(:to_ary)
       body.to_ary.each { |part| response_data += part }
     elsif body.respond_to?(:call)
-      response_stream = ResponseInputStream.new
-      body.call(response_stream)
-      response_data = response_stream.buffer
+      response_data = ResponseInputStream[body]
     end
   ensure
     body.close if body.respond_to?(:close)
