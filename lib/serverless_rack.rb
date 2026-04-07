@@ -196,6 +196,8 @@ def all_casings(input_string)
   # Permute all casings of a given string.
   # A pretty algoritm, via @Amber
   # http://stackoverflow.com/questions/6792803/finding-all-possible-case-permutations-in-python
+  return enum_for(__method__, input_string) unless block_given?
+
   if input_string.empty?
     yield ''
   else
@@ -223,10 +225,7 @@ def format_split_headers(headers:)
   # This is a hack that's currently needed.
   headers.each do |key, value|
     if value.is_a?(Array)
-      all_casings(key) do |casing|
-        headers_hash[casing] = value.shift
-        break if value.empty?
-      end
+      value.zip(all_casings(key)).each { |v, casing| headers_hash[casing] = v }
     else
       headers_hash[key] = value
     end
