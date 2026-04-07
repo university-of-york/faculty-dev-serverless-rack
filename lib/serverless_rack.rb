@@ -130,6 +130,33 @@ def text_mime_type?(headers:, text_mime_types:)
   false
 end
 
+# Class to buffer a streaming response body
+class ResponseInputStream
+  attr_reader :buffer
+
+  def initialize
+    @buffer = ''
+  end
+
+  def write(chunk)
+    @buffer += chunk
+  end
+
+  def <<(chunk)
+    write(chunk)
+  end
+
+  def close; end
+
+  def read
+    buffer
+  end
+
+  def flush
+    @buffer = ''
+  end
+end
+
 def format_body(body:, headers:, text_mime_types:)
   response_data = ''
   begin
@@ -138,20 +165,9 @@ def format_body(body:, headers:, text_mime_types:)
     elsif body.respond_to?(:to_ary)
       body.to_ary.each { |part| response_data += part }
     elsif body.respond_to?(:call)
-      # Create an input stream object that buffers the response for a streaming body
-      input_stream = Class.new do
-        attr_reader :buffer
-
-        def initialize; @buffer = ''; end
-        def write(chunk); @buffer += chunk; end
-        def <<(chunk); self.write(chunk); end
-        def close; end
-        def read; self.buffer; end
-        def flush; @buffer = ''; end
-      end.new
-
-      body.call(input_stream)
-      response_data = input_stream.buffer
+      response_stream = ResponseInputStream.new
+      body.call(response_stream)
+      response_data = response_stream.buffer
     end
   ensure
     body.close if body.respond_to?(:close)
