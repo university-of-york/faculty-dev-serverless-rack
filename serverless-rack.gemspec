@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'serverless-rack'
-  s.version     = '1.0.8'
+  s.version     = '2.0.0'
   s.summary     =
     'Serverless plugin to deploy Ruby Rack applications (Sinatra/Padrino/Cuba etc.) '\
     'and bundle gems'
