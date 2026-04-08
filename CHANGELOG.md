@@ -2,6 +2,7 @@
 
 - Add support for Rack v3 (#44)
 
+  _Lissa Moriarty_
   _Matthew Pickin_
 
 # 1.0.8
