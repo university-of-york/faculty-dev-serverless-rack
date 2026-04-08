@@ -154,9 +154,7 @@ class ResponseInputStream
 
   def close; end
 
-  def read
-    buffer
-  end
+  alias read buffer
 
   def flush
     @buffer = ''
