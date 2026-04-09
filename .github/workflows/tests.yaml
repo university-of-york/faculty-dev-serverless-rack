@@ -8,29 +8,29 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { name: "2.5", ruby: "2.5", os: ubuntu-latest }
-          - { name: "2.7", ruby: "2.7", os: ubuntu-latest }
+          - { name: "3.1", ruby: "3.1", os: ubuntu-latest }
+          - { name: "3.2", ruby: "3.2", os: ubuntu-latest }
+          - { name: "3.3", ruby: "3.3", os: ubuntu-latest }
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: "14"
+          node-version: "20"
       - run: npm install
 
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - run: gem install bundler
-      - run: bundle install
+          bundler-cache: true
 
       - run: npm test
       - run: npm run lint
       - run: npm run rbtest
       - run: npm run rblint
 
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v4
         with:
-          token: "cbfe30a0-d7f0-4618-9ad6-d63799c09dbe"
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true
