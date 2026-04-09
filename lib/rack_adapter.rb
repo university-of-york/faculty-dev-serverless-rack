@@ -12,7 +12,7 @@ require 'json'
 require 'rack'
 require 'stringio'
 
-require_relative './serverless_rack'
+require_relative 'serverless_rack'
 
 $config ||= JSON.parse(File.read('.serverless-rack'))
 $app ||= Rack::Builder.parse_file($config['config_path'] || 'config.ru')

@@ -4,11 +4,11 @@ Gem::Specification.new do |s|
   s.name        = 'serverless-rack'
   s.version     = '2.0.0'
   s.summary     =
-    'Serverless plugin to deploy Ruby Rack applications (Sinatra/Padrino/Cuba etc.) '\
+    'Serverless plugin to deploy Ruby Rack applications (Sinatra/Padrino/Cuba etc.) ' \
     'and bundle gems'
   s.description =
-    'A Serverless v1.x plugin to build your deploy Ruby Rack applications using '\
-    'Serverless. Compatible Rack application frameworks include Sinatra, '\
+    'A Serverless v1.x plugin to build your deploy Ruby Rack applications using ' \
+    'Serverless. Compatible Rack application frameworks include Sinatra, ' \
     'Cuba and Padrino.'
   s.authors     = ['Logan Raarup']
   s.email       = 'logan@logan.dk'
@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.4.0'
   s.add_dependency 'rack', '~> 3.0'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

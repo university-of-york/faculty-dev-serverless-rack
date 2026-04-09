@@ -41,8 +41,6 @@ class MockApp
     [response.status, response.headers, response_body]
   end
 
-  private
-
   class StreamingResponse
     def call(stream)
       'Streamed Hello World ☃!'.chars do |char|

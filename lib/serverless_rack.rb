@@ -17,7 +17,9 @@ TEXT_MIME_TYPES = [
 ].freeze
 
 def base_path
-  "/#{ENV['API_GATEWAY_BASE_PATH']}" unless ENV['API_GATEWAY_BASE_PATH'].to_s.empty?
+  return if ENV.fetch('API_GATEWAY_BASE_PATH', '').empty?
+
+  "/#{ENV.fetch('API_GATEWAY_BASE_PATH')}"
 end
 
 def keepalive_event?(event)

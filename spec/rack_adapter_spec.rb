@@ -2,7 +2,7 @@
 
 require 'rack'
 require 'rake'
-require_relative './mock_app'
+require_relative 'mock_app'
 
 RACK_VERSION = Gem.loaded_specs['rack'].version.to_s.freeze
 
@@ -423,16 +423,16 @@ RSpec.describe 'Rack adapter' do
 
   it 'handles base64 encoded binary request' do
     @event['body'] =
-      'LS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5VTRDZE5CRWVLQWxIaGRRcQ0KQ29udGVu'\
-      'dC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJ3YXQiDQoNCmhleW9vb3Bw'\
-      'cHBwDQotLS0tLS1XZWJLaXRGb3JtQm91bmRhcnlVNENkTkJFZUtBbEhoZFFxDQpD'\
-      'b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGVUb1VwbG9h'\
-      'ZCI7IGZpbGVuYW1lPSJGRjREMDAtMC44LnBuZyINCkNvbnRlbnQtVHlwZTogaW1h'\
-      'Z2UvcG5nDQoNColQTkcNChoKAAAADUlIRFIAAAABAAAAAQEDAAAAJdtWygAAAANQ'\
-      'TFRF/00AXDU4fwAAAAF0Uk5TzNI0Vv0AAAAKSURBVHicY2IAAAAGAAM2N3yoAAAA'\
-      'AElFTkSuQmCCDQotLS0tLS1XZWJLaXRGb3JtQm91bmRhcnlVNENkTkJFZUtBbEho'\
-      'ZFFxDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InN1Ym1p'\
-      'dCINCg0KVXBsb2FkIEltYWdlDQotLS0tLS1XZWJLaXRGb3JtQm91bmRhcnlVNENk'\
+      'LS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5VTRDZE5CRWVLQWxIaGRRcQ0KQ29udGVu' \
+      'dC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJ3YXQiDQoNCmhleW9vb3Bw' \
+      'cHBwDQotLS0tLS1XZWJLaXRGb3JtQm91bmRhcnlVNENkTkJFZUtBbEhoZFFxDQpD' \
+      'b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGVUb1VwbG9h' \
+      'ZCI7IGZpbGVuYW1lPSJGRjREMDAtMC44LnBuZyINCkNvbnRlbnQtVHlwZTogaW1h' \
+      'Z2UvcG5nDQoNColQTkcNChoKAAAADUlIRFIAAAABAAAAAQEDAAAAJdtWygAAAANQ' \
+      'TFRF/00AXDU4fwAAAAF0Uk5TzNI0Vv0AAAAKSURBVHicY2IAAAAGAAM2N3yoAAAA' \
+      'AElFTkSuQmCCDQotLS0tLS1XZWJLaXRGb3JtQm91bmRhcnlVNENkTkJFZUtBbEho' \
+      'ZFFxDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InN1Ym1p' \
+      'dCINCg0KVXBsb2FkIEltYWdlDQotLS0tLS1XZWJLaXRGb3JtQm91bmRhcnlVNENk' \
       'TkJFZUtBbEhoZFFxLS0NCg=='
     @event['headers']['Content-Type'] =
       'multipart/form-data; boundary=----WebKitFormBoundaryU4CdNBEeKAlHhdQq'
@@ -449,9 +449,9 @@ RSpec.describe 'Rack adapter' do
 
   it 'handles request with non-latin1 characters' do
     @event['body'] =
-      "------WebKitFormBoundary3vA72kRLuq9D3NdL\r\n"\
-      "Content-Disposition: form-data; name=\"text\"\r\n\r\n"\
-      "テスト 테스트 测试\r\n"\
+      "------WebKitFormBoundary3vA72kRLuq9D3NdL\r\n" \
+      "Content-Disposition: form-data; name=\"text\"\r\n\r\n" \
+      "テスト 테스트 测试\r\n" \
       '------WebKitFormBoundary3vA72kRLuq9D3NdL--'
     @event['headers']['Content-Type'] =
       'multipart/form-data; boundary=----WebKitFormBoundary3vA72kRLuq9D3NdL'
@@ -495,7 +495,7 @@ RSpec.describe 'Rack adapter' do
       'requestContext' => {
         'elb' => {
           'targetGroupArn' =>
-            'arn:aws:elasticloadbalancing:us-east-1:12345:targetgroup/xxxx'\
+            'arn:aws:elasticloadbalancing:us-east-1:12345:targetgroup/xxxx' \
             '/5e43816d76759862'
         }
       },
@@ -504,7 +504,7 @@ RSpec.describe 'Rack adapter' do
       'queryStringParameters' => {},
       'headers' => {
         'accept' =>
-          'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp'\
+          'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp' \
           ',image/apng,*/*;q=0.8',
         'accept-encoding' => 'gzip, deflate',
         'accept-language' => 'en-US,en;q=0.9,da;q=0.8',
@@ -513,7 +513,7 @@ RSpec.describe 'Rack adapter' do
         'host' => 'xxxx-203391234.us-east-1.elb.amazonaws.com',
         'upgrade-insecure-requests' => '1',
         'user-agent' =>
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '\
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
           '(KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36',
         'x-amzn-trace-id' => 'Root=1-5f05949b-77e2b0f9434e2acbf5ad8ce8',
         'x-forwarded-for' => '95.181.37.218',
