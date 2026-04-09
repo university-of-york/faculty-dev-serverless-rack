@@ -63,13 +63,13 @@ end
 
 def parse_headers(event)
   if event.include? 'multiValueHeaders'
-    Rack::Utils::HeaderHash.new(
+    Rack::Headers.new(
       (event['multiValueHeaders'] || {}).transform_values do |value|
         value.join("\n")
       end
     )
   else
-    Rack::Utils::HeaderHash.new(event['headers'] || {})
+    Rack::Headers[event['headers'] || {}]
   end
 end
 
@@ -130,10 +130,47 @@ def text_mime_type?(headers:, text_mime_types:)
   false
 end
 
+# Class to buffer a streaming response body
+class ResponseInputStream
+  attr_reader :buffer
+
+  def initialize
+    @buffer = ''
+  end
+
+  def self.[](streaming_body)
+    stream = new
+    streaming_body.call(stream)
+    stream.buffer
+  end
+
+  def write(chunk)
+    @buffer += chunk
+  end
+
+  def <<(chunk)
+    write(chunk)
+  end
+
+  def close; end
+
+  alias read buffer
+
+  def flush
+    @buffer = ''
+  end
+end
+
 def format_body(body:, headers:, text_mime_types:)
   response_data = ''
   begin
-    body.each { |part| response_data += part }
+    if body.respond_to?(:each)
+      body.each { |part| response_data += part }
+    elsif body.respond_to?(:to_ary)
+      body.to_ary.each { |part| response_data += part }
+    elsif body.respond_to?(:call)
+      response_data = ResponseInputStream[body]
+    end
   ensure
     body.close if body.respond_to?(:close)
   end
@@ -157,6 +194,8 @@ def all_casings(input_string)
   # Permute all casings of a given string.
   # A pretty algoritm, via @Amber
   # http://stackoverflow.com/questions/6792803/finding-all-possible-case-permutations-in-python
+  return enum_for(__method__, input_string) unless block_given?
+
   if input_string.empty?
     yield ''
   else
@@ -175,32 +214,26 @@ def all_casings(input_string)
 end
 
 def format_split_headers(headers:)
-  headers = headers.to_hash
-  keys = headers.keys
+  # Rack::Headers will automatically lower-case new keys
+  # Use (and return) a regular hash literal instead
+  headers_hash = {}
 
   # If there are headers multiple occurrences, e.g. Set-Cookie, create
   # case-mutated variations in order to pass them through APIGW.
   # This is a hack that's currently needed.
-  keys.each do |key|
-    values = headers[key].split("\n")
-
-    next if values.size < 2
-
-    headers.delete(key)
-
-    all_casings(key) do |casing|
-      headers[casing] = values.shift
-      break if values.empty?
+  headers.each do |key, value|
+    if value.is_a?(Array)
+      value.zip(all_casings(key)).each { |v, casing| headers_hash[casing] = v }
+    else
+      headers_hash[key] = value
     end
   end
 
-  { 'headers' => headers }
+  { 'headers' => headers_hash }
 end
 
 def format_grouped_headers(headers:)
-  { 'multiValueHeaders' => headers.transform_values do |value|
-    value.split("\n")
-  end }
+  { 'multiValueHeaders' => headers.transform_values { |v| v.is_a?(Array) ? v : [v] } }
 end
 
 def format_response(event:, status:, headers:, body:, text_mime_types:)

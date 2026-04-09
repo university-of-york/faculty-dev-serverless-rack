@@ -4,12 +4,14 @@ require 'rack'
 require 'rake'
 require_relative './mock_app'
 
+RACK_VERSION = Gem.loaded_specs['rack'].version.to_s.freeze
+
 RSpec.describe 'Rack adapter' do
   let(:app) { MockApp.new }
 
   before(:example) do
     @app = app
-    allow(Rack::Builder).to receive(:parse_file).with('config.ru').and_return([@app])
+    allow(Rack::Builder).to receive(:parse_file).with('config.ru').and_return(@app)
 
     allow(File).to receive(:read).and_call_original
     allow(File).to receive(:read).with('.serverless-rack').and_return('{}')
@@ -89,8 +91,8 @@ RSpec.describe 'Rack adapter' do
       'body' => 'Hello World ☃!',
       'headers' => {
         'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'text/plain',
+        'content-length' => '16',
+        'content-type' => 'text/plain',
         'sEt-cookie' => 'LOT_NUMBER=42',
         'Set-cookie' => 'PART_NUMBER=ROCKET_LAUNCHER_0002'
       },
@@ -135,7 +137,7 @@ RSpec.describe 'Rack adapter' do
       'rack.multithread' => false,
       'rack.run_once' => false,
       'rack.url_scheme' => 'https',
-      'rack.version' => [1, 3],
+      'rack.version' => RACK_VERSION,
       'serverless.authorizer' => { 'principalId' => 'wile_e_coyote' },
       'serverless.context' => { 'memory_limit_in_mb' => '128' },
       'serverless.event' => @event
@@ -167,9 +169,9 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'multiValueHeaders' => {
-        'Content-Length' => ['16'],
-        'Content-Type' => ['text/plain'],
-        'Set-Cookie' => [
+        'content-length' => ['16'],
+        'content-type' => ['text/plain'],
+        'set-cookie' => [
           'CUSTOMER=WILE_E_COYOTE',
           'PART_NUMBER=ROCKET_LAUNCHER_0002',
           'LOT_NUMBER=42'
@@ -225,9 +227,9 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'headers' => {
-        'Set-Cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'text/plain'
+        'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+        'content-length' => '16',
+        'content-type' => 'text/plain'
       },
       'statusCode' => 200,
       'isBase64Encoded' => false
@@ -242,8 +244,8 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'headers' => {
-        'Content-Length' => '16',
-        'Content-Type' => 'text/plain'
+        'content-length' => '16',
+        'content-type' => 'text/plain'
       },
       'statusCode' => 200,
       'isBase64Encoded' => false
@@ -303,7 +305,7 @@ RSpec.describe 'Rack adapter' do
       'rack.multithread' => false,
       'rack.run_once' => false,
       'rack.url_scheme' => 'https',
-      'rack.version' => [1, 3],
+      'rack.version' => RACK_VERSION,
       'serverless.authorizer' => { 'principalId' => 'wile_e_coyote' },
       'serverless.context' => {},
       'serverless.event' => @event
@@ -354,7 +356,7 @@ RSpec.describe 'Rack adapter' do
       'rack.multithread' => false,
       'rack.run_once' => false,
       'rack.url_scheme' => 'https',
-      'rack.version' => [1, 3],
+      'rack.version' => RACK_VERSION,
       'serverless.authorizer' => { 'principalId' => 'wile_e_coyote' },
       'serverless.context' => {},
       'serverless.event' => @event
@@ -370,9 +372,9 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'SGVsbG8gV29ybGQg4piDIQ==',
       'headers' => {
-        'Set-Cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'image/jpeg'
+        'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+        'content-length' => '16',
+        'content-type' => 'image/jpeg'
       },
       'statusCode' => 200,
       'isBase64Encoded' => true
@@ -395,9 +397,9 @@ RSpec.describe 'Rack adapter' do
       expect(response).to eq(
         'body' => 'Hello World ☃!',
         'headers' => {
-          'Set-Cookie' => 'CUSTOMER=WILE_E_COYOTE',
-          'Content-Length' => '16',
-          'Content-Type' => mimetype
+          'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+          'content-length' => '16',
+          'content-type' => mimetype
         },
         'statusCode' => 200,
         'isBase64Encoded' => false
@@ -479,9 +481,9 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq(
       'body' => 'Hello World ☃!',
       'headers' => {
-        'Set-Cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'application/custom+json'
+        'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+        'content-length' => '16',
+        'content-type' => 'application/custom+json'
       },
       'statusCode' => 200,
       'isBase64Encoded' => false
@@ -528,8 +530,8 @@ RSpec.describe 'Rack adapter' do
       'body' => 'Hello World ☃!',
       'headers' => {
         'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
-        'Content-Length' => '16',
-        'Content-Type' => 'text/plain',
+        'content-length' => '16',
+        'content-type' => 'text/plain',
         'sEt-cookie' => 'LOT_NUMBER=42',
         'Set-cookie' => 'PART_NUMBER=ROCKET_LAUNCHER_0002'
       },
@@ -587,7 +589,7 @@ RSpec.describe 'Rack adapter' do
     expect(response).to eq("hello world\n")
   end
 
-  it 'fails when invoked with unknown comand' do
+  it 'fails when invoked with unknown command' do
     response = handler(
       event: { '_serverless-rack' => {
         'command' => 'unknown',
@@ -602,7 +604,7 @@ RSpec.describe 'Rack adapter' do
   it 'loads custom Rack config' do
     allow(Rack::Builder).to receive(:parse_file).with(
       'path/to/config.ru'
-    ).and_return(['custom config'])
+    ).and_return('custom config')
 
     allow(File).to receive(:read).and_call_original
     allow(File).to receive(:read).with('.serverless-rack').and_return(
@@ -613,6 +615,31 @@ RSpec.describe 'Rack adapter' do
     $config = nil
     load 'rack_adapter.rb'
     expect($app).to eq('custom config')
+  end
+
+  context 'when the response body is a streaming body' do
+    before do
+      app.streaming_response = true
+    end
+
+    it 'buffers the response into a string' do
+      response = handler(
+        event: @event,
+        context: { 'memory_limit_in_mb' => '128' }
+      )
+
+      expect(response).to eq(
+        'body' => 'Streamed Hello World ☃!',
+        'headers' => {
+          'set-cookie' => 'CUSTOMER=WILE_E_COYOTE',
+          'content-type' => 'text/plain',
+          'sEt-cookie' => 'LOT_NUMBER=42',
+          'Set-cookie' => 'PART_NUMBER=ROCKET_LAUNCHER_0002'
+        },
+        'statusCode' => 200,
+        'isBase64Encoded' => false
+      )
+    end
   end
 
   context 'when the response body can be closed' do
