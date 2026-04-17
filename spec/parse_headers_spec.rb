@@ -12,7 +12,7 @@ RSpec.describe 'parse_headers' do
     }
   end
 
-  it 'lower-cases keys', :aggregate_failures do
+  it 'responds to lower-case keys', :aggregate_failures do
     parsed_headers = parse_headers(event)
 
     expect(parsed_headers['header1']).to eq 'value1'
@@ -33,7 +33,7 @@ RSpec.describe 'parse_headers' do
       expect(parse_headers(event)['Header1']).to eq "value1\nvalue2"
     end
 
-    it 'lower-cases keys' do
+    it 'responds to lower-case keys' do
       expect(parse_headers(event)['header2']).to eq 'value3'
     end
   end
